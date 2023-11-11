@@ -22,7 +22,7 @@ void MainWindow::paintEvent(QPaintEvent *)
 {
     if(!ready_) return;
     QPainter p;
-    QPixmap pix(650,650);
+    QPixmap pix(this->width()-60,this->height()-120);
     pix.fill(Qt::white);
     p.begin(&pix);
 
@@ -43,7 +43,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     p.drawLine(pix.width()/2,pix.height()*0.95,pix.width()/2,pix.height()*0.05);
 
 
-    for(int i = 0; i < 20;i++)
+    for(int i = 0; i < 20; i++)
     {
        p.setPen(QPen(Qt::black,1));
        p.drawLine(pix.width()*(0.05+step*i),pix.height()*0.05,pix.width()*(0.05+step*i),pix.height()*0.95);
@@ -55,17 +55,14 @@ void MainWindow::paintEvent(QPaintEvent *)
     }
 
     QVector<QVector<QPair<QPointF,QPointF>>> clipSegments = cutSegments(segments);
-    QVector<QPointF> clipPolygon = cutPolygon(polygon); // here error
+    QVector<QPointF> clipPolygon = cutPolygon(polygon);
 
-
-   // draw clipped segments and polygon
     p.setPen(QPen(Qt::black,2,Qt::DashLine));
     for(auto segment:segments)
         p.drawLine(pix.width()*(0.5+stp*segment.first.x()),pix.height()*(0.5-stp*segment.first.y()),pix.width()*(0.5+stp*segment.second.x()),pix.height()*(0.5-stp*segment.second.y()));
     for(int i = 1; i<polygon.size();i++)
         p.drawLine(pix.width()*(0.5+stp*polygon[i-1].x()),pix.height()*(0.5-stp*polygon[i-1].y()),pix.width()*(0.5+stp*polygon[i].x()),pix.height()*(0.5-stp*polygon[i].y()));
 
-    //draw original segments and polygon
     p.setPen(QPen(Qt::black,3));
     for(auto otrezok:clipSegments[0])
         p.drawLine(pix.width()*(0.5+stp*otrezok.first.x()),pix.height()*(0.5-stp*otrezok.first.y()),pix.width()*(0.5+stp*otrezok.second.x()),pix.height()*(0.5-stp*otrezok.second.y()));

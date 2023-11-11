@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     w.setWindowTitle("Lab 5");
-    w.resize(900,900);
+    w.resize(600,600);
 
     QSize screenSize = qApp->screens()[0]->size();
     double x = (screenSize.width()-w.width()) / 2;
